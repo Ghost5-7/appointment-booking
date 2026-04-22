@@ -18,11 +18,11 @@ const BookingSection = () => {
             const res = await axios.get('/api/barbers');
             // Filter out current user if they are a barber
             const filteredBarbers = user?.role === 'barber' 
-                ? res.data.filter(b => b._id !== user.id)
+                ? res.data.filter(b => b.id !== user.id)
                 : res.data;
             
             setBarbers(filteredBarbers);
-            if (filteredBarbers.length > 0) setSelectedBarber(filteredBarbers[0]._id);
+            if (filteredBarbers.length > 0) setSelectedBarber(filteredBarbers[0].id);
         };
         fetchBarbers();
     }, [user]);
@@ -73,7 +73,7 @@ const BookingSection = () => {
                             <label>Choose a Barber</label>
                             <select value={selectedBarber} onChange={(e) => setSelectedBarber(e.target.value)}>
                                 {barbers.map(b => (
-                                    <option key={b._id} value={b._id}>{b.name}</option>
+                                    <option key={b.id} value={b.id}>{b.name}</option>
                                 ))}
                             </select>
                         </div>

@@ -86,7 +86,7 @@ const BarberDashboard = () => {
                     {appointments.length > 0 ? (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
                             {appointments.map(app => (
-                                <div key={app._id} style={{ padding: '20px', border: '1px solid var(--border)', borderRadius: 'var(--radius)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <div key={app.id} style={{ padding: '20px', border: '1px solid var(--border)', borderRadius: 'var(--radius)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <div>
                                         <p style={{ fontWeight: '700', fontSize: '1.1rem' }}>{app.service}</p>
                                         <p style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '5px' }}>
