@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 const register = async (req, res) => {
+    console.log('Registration attempt for:', req.body.email);
     try {
         const { name, email, password, role } = req.body;
         const normalizedEmail = email.trim().toLowerCase();
