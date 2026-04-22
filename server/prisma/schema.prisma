@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                 Int           @id @default(autoincrement())
+  name               String
+  email              String        @unique
+  password           String
+  role               String        @default("customer") // "customer", "barber", "admin"
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  appointments       Appointment[] @relation("CustomerAppointments")
+  barberProfile      Barber?
+  barberAppointments Appointment[] @relation("BarberAppointments")
+}
+
+model Barber {
+  id           Int      @id @default(autoincrement())
+  userId       Int      @unique
+  user         User     @relation(fields: [userId], references: [id])
+  bio          String?
+  specialties  String[]
+  workingHours Json[]
+  breakTimes   Json[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Appointment {
+  id         Int      @id @default(autoincrement())
+  customerId Int
+  customer   User     @relation("CustomerAppointments", fields: [customerId], references: [id])
+  barberId   Int
+  barber     User     @relation("BarberAppointments", fields: [barberId], references: [id])
+  service    String
+  date       DateTime
+  timeSlot   String
+  status     String   @default("pending") // "pending", "confirmed", "cancelled", "completed"
+  notes      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}

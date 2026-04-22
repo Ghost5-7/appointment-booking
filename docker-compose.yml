@@ -1,0 +1,38 @@
+services:
+  backend:
+    build: ./server
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./server/.env
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: barber-booking
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Frontend is usually served via S3 or Nginx, 
+  # but here is a containerized version for local testing
+  frontend:
+    build:
+      context: ./client
+      dockerfile: ../server/Dockerfile # Re-using node alpine base
+    ports:
+      - "3000:3000"
+    command: npm run dev -- --host
+    volumes:
+      - ./client:/app
+    restart: always
+
+volumes:
+  postgres_data:
